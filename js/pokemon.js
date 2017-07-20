@@ -1,10 +1,44 @@
-var $button = $('.sentId');
+function clearScreen(){
+	$('.name').empty();
+	$('.type').empty();
+	$('.description').empty();
 
-$button.on("click", function(e) {
-		$('.name').empty();
-		$('.type').empty();
-		$('.description').empty();
-		$('.pokemon-image').empty();
+	var images = $('div.card.results img.pokemon-image');
+
+    if(images.length > 0) {
+        for(var i = 0; i < images.length; i++) {
+            images[i].remove();
+        }
+    }
+}
+
+var $buttonPokemon = $('.sentId');
+
+var $buttonType = $('.sentType');
+
+$buttonType.on("click", function(e){
+	clearScreen();
+	var $selectValue = $('select').val();
+
+	$.ajax({
+	   	url: 'http://pokeapi.co/api/v2/type/'+$selectValue, 
+	   	dataType: 'json',
+	   	success: types
+	});
+
+	function types(responseTypes){
+		for(var i = 0; i < 10; i++){
+			console.log(responseTypes.pokemon[i].pokemon.name);
+		};
+	}
+
+
+});
+
+
+$buttonPokemon.on("click", function(e) {
+		clearScreen();
+
 		var $inputValue = $('.searchPokemon').val();
 
 $.ajax({
